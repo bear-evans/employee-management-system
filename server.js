@@ -6,6 +6,8 @@ const express = require("express");
 const app = express();
 const cTable = require("console.table");
 const grizzlyDB = require("./lib/grizzlyEmployee.js");
+const prompts = require("./lib/prompts.js");
+const inquirer = require("inquirer");
 
 // Variables needed by MySQL are stored here. They are either retrieved
 // from the environment variables or set to generic defaults
@@ -23,3 +25,6 @@ const grizzly = new grizzlyDB(HOSTNAME, PORT, USERNAME, PW);
 // ===========================
 // Inquirer Prompt Functions
 // ===========================
+function main() {
+  inquirer.prompt().then();
+}
