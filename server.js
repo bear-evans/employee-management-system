@@ -25,6 +25,10 @@ app.use(express.urlencoded({ extended: false }));
 const grizzly = new grizzlyDB(HOSTNAME, USERNAME, PW, PORT);
 
 // ===========================
+// Helper Functions
+// ===========================
+
+// ===========================
 // Inquirer Prompt Functions
 // ===========================
 function mainPrompt() {
@@ -43,26 +47,29 @@ function mainPrompt() {
   });
 }
 
-function viewPrompt() {
-  inquirer.prompt(prompts.view).then((answer) => {
-    switch (answer.view) {
-      case "View Employees":
-        grizzly.viewEmployee();
-        viewPrompt();
-        break;
-      case "View Roles":
-        grizzly.viewRole();
-        viewPrompt();
-        break;
-      case "View Departments":
-        grizzly.viewDepartment();
-        viewPrompt();
-        break;
-      case "Go Back":
-        mainPrompt();
-        break;
-    }
-  });
+async function viewPrompt() {
+  let results;
+  answer = await inquirer.prompt(prompts.view);
+  switch (answer.view) {
+    case "View Employees":
+      results = await grizzly.viewEmployee();
+      console.table(results[0]);
+      viewPrompt();
+      break;
+    case "View Roles":
+      results = await grizzly.viewRole();
+      console.table(results[0]);
+      viewPrompt();
+      break;
+    case "View Departments":
+      results = await grizzly.viewDepartment();
+      console.table(results[0]);
+      viewPrompt();
+      break;
+    case "Go Back":
+      mainPrompt();
+      break;
+  }
 }
 
 function init() {
