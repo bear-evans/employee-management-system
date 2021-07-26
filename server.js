@@ -74,7 +74,6 @@ async function viewPrompt() {
 
 async function addPrompt() {
   answer = await inquirer.prompt(prompts.add);
-  console.log(answer.add);
   switch (answer.add) {
     case "Add Employee":
       data = await inquirer.prompt(prompts.addEmp);
@@ -90,21 +89,48 @@ async function addPrompt() {
       break;
     case "Update Employee Manager":
       data = await inquirer.prompt(prompts.upMan);
-      await grizzly.upMan(data.first, data.last, data.manager);
+      await grizzly.upManager(data.first, data.last, data.manager);
       console.log("Employee " + data.first + " " + data.last + " updated!");
       addPrompt();
       break;
-    case "Add Roles":
+    case "Add Role":
       data = await inquirer.prompt(prompts.addRole);
       await grizzly.addRole(data.title, data.salary);
       console.log("Role " + data.title + " added!");
       addPrompt();
       break;
-    case "Add Departments":
+    case "Add Department":
       data = await inquirer.prompt(prompts.addDep);
-      await grizzly.addDep(data.name);
+      await grizzly.addDepartment(data.name);
       console.log("Department " + data.name + " added!");
       addPrompt();
+      break;
+    case "Go Back":
+      mainPrompt();
+      break;
+  }
+}
+
+async function deletePrompt() {
+  answer = await inquirer.prompt(prompts.del);
+  switch (answer.delete) {
+    case "Delete Employee":
+      data = await inquirer.prompt(prompts.delEmp);
+      await grizzly.delEmployee(data.id);
+      console.log("Employee " + data.id + " removed!");
+      deletePrompt();
+      break;
+    case "Delete Role":
+      data = await inquirer.prompt(prompts.delRole);
+      await grizzly.delRole(data.id);
+      console.log("Role " + data.id + " removed!");
+      deletePrompt();
+      break;
+    case "Delete Department":
+      data = await inquirer.prompt(prompts.delDep);
+      await grizzly.delDepartment(data.id);
+      console.log("Department " + data.id + " removed!");
+      deletePrompt();
       break;
     case "Go Back":
       mainPrompt();
