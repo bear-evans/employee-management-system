@@ -72,6 +72,46 @@ async function viewPrompt() {
   }
 }
 
+async function addPrompt() {
+  answer = await inquirer.prompt(prompts.add);
+  console.log(answer.add);
+  switch (answer.add) {
+    case "Add Employee":
+      data = await inquirer.prompt(prompts.addEmp);
+      await grizzly.addEmployee(data.first, data.last, data.role, data.manager);
+      console.log("Employee " + data.first + " " + data.last + " added!");
+      addPrompt();
+      break;
+    case "Update Employee Role":
+      data = await inquirer.prompt(prompts.upEmp);
+      await grizzly.upRole(data.first, data.last, data.role);
+      console.log("Employee " + data.first + " " + data.last + " updated!");
+      addPrompt();
+      break;
+    case "Update Employee Manager":
+      data = await inquirer.prompt(prompts.upMan);
+      await grizzly.upMan(data.first, data.last, data.manager);
+      console.log("Employee " + data.first + " " + data.last + " updated!");
+      addPrompt();
+      break;
+    case "Add Roles":
+      data = await inquirer.prompt(prompts.addRole);
+      await grizzly.addRole(data.title, data.salary);
+      console.log("Role " + data.title + " added!");
+      addPrompt();
+      break;
+    case "Add Departments":
+      data = await inquirer.prompt(prompts.addDep);
+      await grizzly.addDep(data.name);
+      console.log("Department " + data.name + " added!");
+      addPrompt();
+      break;
+    case "Go Back":
+      mainPrompt();
+      break;
+  }
+}
+
 function init() {
   // It prints a really cool header, I promise.
   const header = `${chalk.red(
