@@ -23,13 +23,8 @@ app.use(express.urlencoded({ extended: false }));
 const grizzly = new grizzlyDB(HOSTNAME, USERNAME, PW, PORT);
 
 // ===========================
-// Helper Functions
-// ===========================
-
-// ===========================
 // Inquirer Prompt Functions
 // ===========================
-
 // Main Menu
 function mainPrompt() {
   inquirer.prompt(prompts.main).then((answer) => {
