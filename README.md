@@ -30,6 +30,8 @@ This will install `express`, `mysql`, `chalk`, `inquirer` and `dotenv`.
 
 A database schema and a seed file are included for convenience.
 
+Additionally, you will need to add a .env file specifying your username, password, and host for the MySQL connection.
+
 ## Usage
 
 To initiate the application, run
