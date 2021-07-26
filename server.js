@@ -2,11 +2,9 @@
 // Imports and Globals
 // ===========================
 require("dotenv").config();
-const cTable = require("console.table");
 const express = require("express");
 const app = express();
 const chalk = require("chalk");
-const mysql = require("mysql2");
 const grizzlyDB = require("./lib/grizzlyEmployee.js");
 const prompts = require("./lib/prompts.js");
 const inquirer = require("inquirer");
@@ -20,7 +18,7 @@ const PW = process.env.PW || "password";
 
 app.use(express.urlencoded({ extended: false }));
 
-// Creates a new GrizzlyDB object that represents the MySQL connection
+// Creates a new database object that represents the MySQL connection
 // and contains all necessary query functions
 const grizzly = new grizzlyDB(HOSTNAME, USERNAME, PW, PORT);
 
@@ -31,6 +29,8 @@ const grizzly = new grizzlyDB(HOSTNAME, USERNAME, PW, PORT);
 // ===========================
 // Inquirer Prompt Functions
 // ===========================
+
+// Main Menu
 function mainPrompt() {
   inquirer.prompt(prompts.main).then((answer) => {
     switch (answer.main) {
@@ -47,10 +47,16 @@ function mainPrompt() {
   });
 }
 
+// Displays Various view options
 async function viewPrompt() {
   let results;
   answer = await inquirer.prompt(prompts.view);
   switch (answer.view) {
+    case "Full View":
+      results = await grizzly.viewFull();
+      console.table(results[0]);
+      viewPrompt();
+      break;
     case "View Employees":
       results = await grizzly.viewEmployee();
       console.table(results[0]);
@@ -72,6 +78,7 @@ async function viewPrompt() {
   }
 }
 
+// Displays options to add or update entries
 async function addPrompt() {
   answer = await inquirer.prompt(prompts.add);
   switch (answer.add) {
@@ -95,7 +102,7 @@ async function addPrompt() {
       break;
     case "Add Role":
       data = await inquirer.prompt(prompts.addRole);
-      await grizzly.addRole(data.title, data.salary);
+      await grizzly.addRole(data.title, data.salary, data.department);
       console.log("Role " + data.title + " added!");
       addPrompt();
       break;
@@ -111,6 +118,7 @@ async function addPrompt() {
   }
 }
 
+// Handles all deletion
 async function deletePrompt() {
   answer = await inquirer.prompt(prompts.del);
   switch (answer.delete) {
@@ -138,6 +146,7 @@ async function deletePrompt() {
   }
 }
 
+// Handles header and startup
 function init() {
   // It prints a really cool header, I promise.
   const header = `${chalk.red(
