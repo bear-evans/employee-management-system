@@ -42,6 +42,8 @@ node server.js
 
 from the app's directory.
 
+A demonstration video of the app's functionality can be found [here](https://drive.google.com/file/d/1ZsfxC0nNPWlQpg_OHqqhbq6xlMIzh_y9/view).
+
 ## Tests
 
 There are no tests for the Grizzly Employee Management application at this time.
